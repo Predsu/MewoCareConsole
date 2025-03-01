@@ -3,6 +3,7 @@ using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
+using MewoCareConsole;
 
 class Game
 {
@@ -10,7 +11,7 @@ class Game
     private static double sleepness = 0.0;
     private static double hydration = 0.0;
     private static double fullness = 0.0;
-    private static double money = 0;
+    public static double money = 0;
     private static long unixtime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
     private static long lastunix = 0;
     private static bool isRunning = true;
@@ -59,8 +60,9 @@ class Game
     private static string appFolderPath = Path.Combine(appDataPath, "MewoCareDesktop");
     static bool canPressE = true;
 
-    public static void Start()
+    public static void Start(bool isrunning)
     {
+        isRunning = isrunning;
         if (!Directory.Exists(appFolderPath))
         {
             Directory.CreateDirectory(appFolderPath);
@@ -118,6 +120,12 @@ class Game
                         hydration += 0.1;
                     }
                     break;
+                case ConsoleKey.G:
+                    isRunning = false;
+                    Console.Clear();
+                    Console.CursorVisible = true;
+                    CoinFlip.Start();
+                    break;
                 case ConsoleKey.Escape:
                     isRunning = false;
                     saveDoubleData(happiness, Path.Combine(appFolderPath, "happiness.mwcr"));
@@ -149,21 +157,21 @@ class Game
         }
     }
 
-    static void saveDoubleData(double data, string filePath)
+    public static void saveDoubleData(double data, string filePath)
     {
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             writer.WriteLine(data);
         }
     }
-    static void saveLongData(long data, string filePath)
+    public static void saveLongData(long data, string filePath)
     {
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             writer.WriteLine(data);
         }
     }
-    static double loadDoubleData(string filePath)
+    public static double loadDoubleData(string filePath)
     {
         if (File.Exists(filePath))
         {
@@ -178,7 +186,7 @@ class Game
             return 0;
         }
     }
-    static long loadLongData(string filePath)
+    public static long loadLongData(string filePath)
     {
         if (File.Exists(filePath))
         {
@@ -193,7 +201,7 @@ class Game
             return 0;
         }
     }
-    static bool IsKeyPressed(ConsoleKey key)
+    static bool isKeyPressed(ConsoleKey key)
 {
     return Console.KeyAvailable && Console.ReadKey(true).Key == key;
 }

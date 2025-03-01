@@ -31,12 +31,13 @@ class Program
         Console.WriteLine("W to put Mewo sleep");
         Console.WriteLine("E to fill water bowl");
         Console.WriteLine("R to fill food bowl");
+        Console.WriteLine("G to coinflip game");
 
         ConsoleKeyInfo key = Console.ReadKey();
         if (key.Key == ConsoleKey.Enter)
         {
             Console.Clear();
-            Game.Start();
+            Game.Start(true);
         }
     }
 }
